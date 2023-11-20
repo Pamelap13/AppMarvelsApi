@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/navigationfragment">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigationfragment"
+    app:startDestination="@id/charactersListFragment">
 
+    <fragment
+        android:id="@+id/charactersListFragment"
+        android:name="com.example.myapplication.CharactersListFragment"
+        android:label="fragment_characters_list"
+        tools:layout="@layout/fragment_characters_list" >
+        <action
+            android:id="@+id/action_charactersListFragment_to_characterDetailFragment"
+            app:destination="@id/characterDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/characterDetailFragment"
+        android:name="com.example.myapplication.CharacterDetailFragment"
+        android:label="CharacterDetailFragment" />
 </navigation>

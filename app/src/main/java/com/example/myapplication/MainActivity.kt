@@ -15,18 +15,18 @@ import retrofit2.Response
 import java.math.BigInteger
 import java.security.MessageDigest
 
-class MainActivity : AppCompatActivity(),com.example.myapplication.Callback{
+class MainActivity : AppCompatActivity(){
     val apiClient = ApiClient()
     lateinit var progress: ProgressBar
     lateinit var recyclerView: RecyclerView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        progress= findViewById(R.id.progressbar)
-        recyclerView= findViewById(R.id.recycler_view)
+      //  progress= findViewById(R.id.progressbar)
+        //recyclerView= findViewById(R.id.recycler_view)
     }
 
-    override fun onResume() {
+   /* override fun onResume() {
         super.onResume()
         val ts = System.currentTimeMillis().toString()
         val hash = md5Hash(ts + "b4a78d558a13ee1c267304f39908d68b002b840e" +"5851f6999387039a3ea907434bca6d5c")
@@ -63,6 +63,6 @@ class MainActivity : AppCompatActivity(),com.example.myapplication.Callback{
         b.putInt("id",id)
         intent.putExtras(b)
         startActivity(intent)
-    }
+    }*/
 
 }

@@ -28,6 +28,7 @@ class ListaViewHolder(val item: View, val callback: Callback): RecyclerView.View
 
         this.item.setOnClickListener(object : View.OnClickListener{
             override fun onClick(v: View?) {
+
                 callback.onItemClick(item.id)
             }
         })
