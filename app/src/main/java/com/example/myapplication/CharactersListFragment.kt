@@ -12,21 +12,25 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.models.getAll.Root
+import com.example.myapplication.presenter.CharacterListPresenterImpl
+import com.example.myapplication.presenter.interfaces.CharacterListPresenter
+import com.example.myapplication.view.interfaces.CharacterListView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.math.BigInteger
 import java.security.MessageDigest
 
-class CharactersListFragment : Fragment(), com.example.myapplication.Callback {
+class CharactersListFragment : Fragment(), com.example.myapplication.Callback, CharacterListView {
 
-
+    lateinit var presenter: CharacterListPresenter
     val apiClient = ApiClient()
     lateinit var progress: ProgressBar
     lateinit var recyclerView: RecyclerView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        presenter= CharacterListPresenterImpl()
+        presenter.setCharacterListInformation(this)
     }
 
     override fun onCreateView(
@@ -48,15 +52,7 @@ class CharactersListFragment : Fragment(), com.example.myapplication.Callback {
         val all = apiClient.getClient().getAll(ts,hash)
         all.enqueue(object : Callback<Root> {
             override fun onResponse(call: Call<Root>, response: Response<Root>) {
-                Log.i("MainActivity",response.body().toString())
-                Log.i("MainActivity","total: " + response.body()?.data?.total.toString())
-                Log.i("MainActivity","count: " + response.body()?.data?.count.toString())
-                val lista = response.body()?.data?.results
-
-                recyclerView.adapter= lista?.let { ListaAdapter(it,this@CharactersListFragment) }
-                recyclerView.layoutManager= LinearLayoutManager(context)
-                progress.visibility = View.GONE
-                recyclerView.visibility= View.VISIBLE
+               presenter.getCharacterListInformation()
 
             }
 
@@ -80,5 +76,12 @@ class CharactersListFragment : Fragment(), com.example.myapplication.Callback {
         //startActivity(intent)
 
 
+    }
+
+    override fun showCharacterLisInformation(information: Root) {
+        recyclerView.adapter= information.data.results?.let { ListaAdapter(it,this@CharactersListFragment) }
+        recyclerView.layoutManager= LinearLayoutManager(context)
+        progress.visibility = View.GONE
+        recyclerView.visibility= View.VISIBLE
     }
 }
