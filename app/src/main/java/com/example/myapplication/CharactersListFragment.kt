@@ -38,7 +38,6 @@ class CharactersListFragment : Fragment(), com.example.myapplication.Callback, C
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-
         val view: View= inflater.inflate(R.layout.fragment_characters_list, container, false)
         progress= view.findViewById(R.id.progressbar)
         recyclerView= view.findViewById(R.id.recycler_view)
@@ -47,35 +46,13 @@ class CharactersListFragment : Fragment(), com.example.myapplication.Callback, C
 
     override fun onResume() {
         super.onResume()
-        val ts = System.currentTimeMillis().toString()
-        val hash = md5Hash(ts + "b4a78d558a13ee1c267304f39908d68b002b840e" +"5851f6999387039a3ea907434bca6d5c")
-        val all = apiClient.getClient().getAll(ts,hash)
-        all.enqueue(object : Callback<Root> {
-            override fun onResponse(call: Call<Root>, response: Response<Root>) {
-               presenter.getCharacterListInformation()
-
-            }
-
-            override fun onFailure(call: Call<Root>, t: Throwable) {
-                Log.i("MainActivity", "onFailure: Todo mal")
-            }
-        })
-    }
-    fun md5Hash(str: String): String {
-        val md = MessageDigest.getInstance("MD5")
-        val bigInt = BigInteger(1, md.digest(str.toByteArray(Charsets.UTF_8)))
-        return String.format("%032x", bigInt)
+        presenter.getCharacterListInformation()
     }
 
     override fun onItemClick(id: Int) {
-        //val intent: Intent = Intent(context,CharacterDetailFragment::class.java)
         val b: Bundle= Bundle()
         b.putInt("id",id)
         view?.let { Navigation.findNavController(it).navigate(R.id.action_charactersListFragment_to_characterDetailFragment,b) }
-        //intent.putExtras(b)
-        //startActivity(intent)
-
-
     }
 
     override fun showCharacterLisInformation(information: Root) {
